@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM
+AlignConsecutiveMacros: 'true'
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortLoopsOnASingleLine: 'false'
+BreakBeforeBraces: Linux
+IndentWidth: '4'
+TabWidth: '4'
