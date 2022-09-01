@@ -5,7 +5,7 @@
  * @param argc
  * @param argv
  */
-void start_kernel(int argc, char **argv)
+void __attribute__((noreturn)) start_kernel()
 {
     /**
      * 内存初始化
@@ -37,4 +37,6 @@ void start_kernel(int argc, char **argv)
      * 执行调度器
      *
      */
+
+    __builtin_unreachable();
 }
