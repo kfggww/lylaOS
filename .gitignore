@@ -53,3 +53,6 @@ dkms.conf
 
 # Build output files
 build
+
+# Editors
+.vscode

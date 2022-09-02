@@ -3,10 +3,17 @@
 
 #include "types.h"
 
-void mem_init();
+/*Discribe the mapping between vm and pm, used by all the platforms that the
+ * kernel supports.*/
+typedef struct {
+    uint64 va;
+    uint64 pa;
+    uint32 size;
+    uint32 flags;
+    uint8 *name;
+} mem_map_t;
 
-void create_mem_map(uint64 pgtable, uint64 va, uint64 pa, uint64 size);
-void remove_mem_map(uint64 pgtable, uint64 va, uint64 pa, uint64 size);
-uint64 search_mem_map(uint64 pgtable, uint64 va);
+uint64 alloc_pgframe();
+void free_pgframe(uint64 pgfrm);
 
 #endif
