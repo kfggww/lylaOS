@@ -2,6 +2,7 @@
 #include "asm.h"
 #include "param.h"
 
+extern void trampoline();
 extern uint8 __etext;
 extern uint8 __edata;
 static mem_map_t kmem_layout[KMEM_MAP_NO];
@@ -26,13 +27,19 @@ mem_map_t *mem_layout()
     kmem_layout[1].size = KERN_LIMIT - (uint64)&__etext;
     kmem_layout[1].flags = PTE_R | PTE_W;
 
+    kmem_layout[2].name = "trampoline_mapping";
+    kmem_layout[2].va = TRAMPOLINE;
+    kmem_layout[2].pa = (uint64)trampoline;
+    kmem_layout[2].size = PGSIZE;
+    kmem_layout[2].flags = PTE_R | PTE_X;
+
     return kmem_layout;
 }
 
 void arch_enable_mmu(pagetable_t root_pg_table)
 {
-    uint64 satp_val = MKSATP(SATP_SV39_MODE, root_pg_table);
-    write_satp(satp_val);
+    uint64 satp = MKSATP(SATP_SV39_MODE, root_pg_table);
+    write_satp(satp);
 
     /*Test if MMU is OK.*/
     int a = 10;

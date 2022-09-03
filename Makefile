@@ -6,7 +6,7 @@ LD := $(CORSS_COMPILE)ld
 
 BUILD_DIR ?= build
 BUILD_TYPE ?= Debug
-Q := @
+Q := 
 
 KERNEL_IMG := $(BUILD_DIR)/lylaOS
 QEMU := qemu-system-riscv64

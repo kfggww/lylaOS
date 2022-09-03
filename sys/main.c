@@ -58,5 +58,7 @@ void __attribute__((noreturn)) start_kernel()
      */
 
     mem_init();
+    create_init_proc();
+    sched();
     __builtin_unreachable();
 }

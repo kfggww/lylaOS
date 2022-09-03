@@ -7,6 +7,7 @@ SECTIONS
     . = 0x80200000;
     .text : {*(.text.entry_point)}
     .text : {*(.text .text.*)}
+    .text : {*(.trampoline)}
     . = ALIGN(4096);
     PROVIDE(__etext = .);
     PROVIDE(_etext = .);

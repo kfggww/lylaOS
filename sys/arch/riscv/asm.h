@@ -8,4 +8,14 @@ static inline void write_satp(uint64 satp)
     asm volatile("csrw satp, %0\n" ::"r"(satp) :);
 }
 
+static inline void write_stvec(uint64 stvec)
+{
+    asm volatile("csrw stvec, %0\n" ::"r"(stvec) :);
+}
+
+static inline void write_sepc(uint64 sepc)
+{
+    asm volatile("csrw sepc, %0\n" ::"r"(sepc) :);
+}
+
 #endif
