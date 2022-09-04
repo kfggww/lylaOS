@@ -40,11 +40,6 @@ void arch_enable_mmu(pagetable_t root_pg_table)
 {
     uint64 satp = MKSATP(SATP_SV39_MODE, root_pg_table);
     write_satp(satp);
-
-    /*Test if MMU is OK.*/
-    int a = 10;
-    int b = 20;
-    int c = a + b;
 }
 
 void arch_create_mem_map(pagetable_t root_pg_table, uint64 va, uint64 pa,

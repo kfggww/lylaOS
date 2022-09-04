@@ -1,10 +1,13 @@
 #include "proc.h"
 #include "defs.h"
+#include "memory.h"
 #include "param.h"
 
 extern void trampoline();
+extern void usertrap();
 extern void userret();
 extern void swtch(struct context *ctx0, struct context *ctx1);
+extern pagetable_t kpg_table;
 
 static struct proc proc[NPROC];
 static uint64 pid;
@@ -14,6 +17,7 @@ static uint16 init_code[] = {
     0x9fb9, 0x2623, 0xfef4, 0x2783, 0xfe84, 0x871b, 0x0007, 0x0793, 0x0640,
     0xd3e3, 0xfee7, 0x4781, 0x853e, 0x7422, 0x6145, 0x8082};
 static struct context sched_ctx;
+struct proc *current;
 
 static struct proc *alloc_proc()
 {
@@ -44,6 +48,8 @@ static void init_proc(struct proc *p)
     p->trapframe->sp = UVM_STACK + UVM_STACK_SIZE;
     p->trapframe->epc = UVM_TEXT;
     p->trapframe->kern_stack = alloc_pgframe() + PGSIZE;
+    p->trapframe->kern_satp = MKSATP(SATP_SV39_MODE, kpg_table);
+    p->trapframe->user_trap = (uint64)usertrap;
 
     /*init user proc virtual memmory*/
     p->pg_table = (pagetable_t)alloc_pgframe();
@@ -80,6 +86,7 @@ void sched()
         int32 found = -1;
         for (int i = 0; i < NPROC; i++) {
             if (proc[i].state == SREADY) {
+                current = &proc[i];
                 proc[i].state = SRUNING;
                 swtch(&sched_ctx, &proc[i].context);
             }

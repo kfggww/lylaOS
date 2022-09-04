@@ -1,7 +1,13 @@
 #include "asm.h"
+#include "memory.h"
+#include "param.h"
+#include "proc.h"
 #include "types.h"
 
+extern void uservec();
+extern void uservec_ret();
 extern void kernelvec();
+extern struct proc *current;
 
 void usertrap()
 {
@@ -15,13 +21,19 @@ void usertrap()
 void userret()
 {
     /*set register sepc*/
-    int a = 10;
-    int b = 20;
-    int c = a + b;
+    write_sepc(current->trapframe->epc);
 
     /*switch back stvec register to uservec*/
+    write_stvec(TRAMPOLINE);
+
+    /*set sscratch to trapframe*/
+    write_sscratch(TRAPFRAME);
 
     /*call uservec_ret in the trampoline section*/
+    uint64 satp = MKSATP(SATP_SV39_MODE, current->pg_table);
+    void (*fn)(uint64, uint64) =
+        (void (*)(uint64, uint64))(TRAMPOLINE + (uint64)uservec_ret - (uint64)uservec);
+    fn(satp, TRAPFRAME);
 }
 
 void kerneltrap()

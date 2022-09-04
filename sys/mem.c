@@ -8,7 +8,7 @@ struct pageframe {
 };
 
 static struct pageframe kpf_list_head;
-static pagetable_t kpg_table;
+pagetable_t kpg_table;
 
 static uint32 pgframe_list_empty()
 {
@@ -61,7 +61,7 @@ void create_mem_map(pagetable_t pgtable, uint64 va, uint64 pa, uint64 size,
     uint64 pa_start = pa;
 
     while (size > 0) {
-        arch_create_mem_map(kpg_table, va_start, pa_start, flags);
+        arch_create_mem_map(pgtable, va_start, pa_start, flags);
         size -= PGSIZE;
         va_start += PGSIZE;
         pa_start += PGSIZE;

@@ -18,4 +18,9 @@ static inline void write_sepc(uint64 sepc)
     asm volatile("csrw sepc, %0\n" ::"r"(sepc) :);
 }
 
+static inline void write_sscratch(uint64 sscratch)
+{
+    asm volatile("csrw sscratch, %0\n" ::"r"(sscratch) :);
+}
+
 #endif
