@@ -1,1 +1,0 @@
-Support for riscv64 architecture.

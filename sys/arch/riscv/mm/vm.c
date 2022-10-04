@@ -1,0 +1,4 @@
+
+void arch_kvminit()
+{
+}
