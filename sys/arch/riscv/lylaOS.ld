@@ -10,8 +10,14 @@ SECTIONS {
     .text : {
         *(.text .text.*)
     }
+    PROVIDE(__etext = .);
+    .data : {
+        *(.data .data.*)
+    }
     .bss : {
         *(.bss .bss.*)
         *(.init.kstack)
     }
+    . = ALIGN(0x1000);
+    PROVIDE(__edata = .);
 }
