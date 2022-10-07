@@ -29,7 +29,9 @@ void *arch_pm_alloc()
     struct list_head *node = list_del_prev(&pgfrms.list);
     if (node == 0)
         return 0;
-    return container_of(node, struct pgframe, list);
+    void *pgfrm = container_of(node, struct pgframe, list);
+    memset(pgfrm, 0, PAGESIZE);
+    return pgfrm;
 }
 
 int32 arch_pm_free(void *pa)

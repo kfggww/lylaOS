@@ -8,4 +8,6 @@
 
 void panic(const char *fmt, ...);
 
+void memset(void *s, int32 c, size_t n);
+
 #endif

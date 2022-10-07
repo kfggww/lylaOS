@@ -10,4 +10,7 @@
 #define TRAMPOLINE_BASE 0xfffff000UL
 #define TRAMPOLINE_SIZE PAGESIZE
 
+#define ROUND_UP_PGSZ(val)   ((uint64)(val))
+#define ROUND_DOWN_PGSZ(val) ((uint64)(val))
+
 #endif

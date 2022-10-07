@@ -22,3 +22,10 @@ void *vm_map_get(void *pgtbl, void *va)
 {
     return 0;
 }
+
+void memset(void *s, int32 c, size_t n)
+{
+    for (int i = 0; i < n / sizeof(int32); ++i) {
+        ((int32 *)s)[i] = c;
+    }
+}

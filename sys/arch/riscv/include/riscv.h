@@ -11,6 +11,18 @@
 #define PTE_A (1 << 6)
 #define PTE_D (1 << 7)
 
+#define SV39 (8UL << 60)
+
+#define SV39_VPN(va, level) ((((uint64)(va)) >> (12 + level * 9)) & 0x1FF)
+
+#define SV39_MKPTE(pa, flags)                                                  \
+    ((((((uint64)(pa)) >> 12) & 0xFFFFFFFFFFF) << 10) | (flags))
+
+#define SV39_PTE2PA(pte) (((((uint64)(pte)) >> 10) & 0xFFFFFFFFFFF) << 12)
+
+#define SV39_MKSATP(rtpgtbl)                                                   \
+    (SV39 | ((((uint64)(rtpgtbl)) >> 12) & 0xFFFFFFFFFFF))
+
 #define RISCV_CSR(csr) #csr
 
 #define csr_read(csr)                                                          \
