@@ -10,6 +10,7 @@ SECTIONS {
     .text : {
         *(.text .text.*)
     }
+    . = ALIGN(0x1000);
     PROVIDE(__etext = .);
     .data : {
         *(.data .data.*)
