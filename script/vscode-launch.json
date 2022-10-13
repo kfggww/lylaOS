@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "lylaOS debug",
+            "type": "cppdbg",
+            "program": "${workspaceFolder}/sys/lylaOS",
+            "cwd": "${workspaceFolder}",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
+            "miDebuggerServerAddress": "localhost:1234",
+            "request": "launch"
+        }
+    ]
+}

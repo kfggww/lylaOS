@@ -41,7 +41,11 @@ $(kernel_elf): $(kernel_objs)
 gen-compile-commands:
 	mkdir -p .vscode
 	$(MAKE) clean
-	bear -- $(MAKE) all && mv compile_commands.json .vscode
+	bear $(MAKE) all && mv compile_commands.json .vscode
+
+gen-debug-config:
+	mkdir -p .vscode
+	cp script/vscode-launch.json .vscode/launch.json
 
 qemu-gdb: all
 	$(QEMU) $(QEMU_OPTS) -s -S
@@ -51,4 +55,4 @@ clean:
 
 all: $(kernel_elf)
 
-.PHONY: all clean qemu-gdb gen-compile-commands
+.PHONY: all clean qemu-gdb gen-compile-commands gen-debug-config
