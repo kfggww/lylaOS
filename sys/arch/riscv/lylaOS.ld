@@ -12,11 +12,16 @@ SECTIONS {
     }
     . = ALIGN(0x1000);
     PROVIDE(__etext = .);
+    .rodata : {
+        *(.rodata .rodata.*)
+    }
     .data : {
         *(.data .data.*)
+        *(.sdata .sdata.*)
     }
     .bss : {
         *(.bss .bss.*)
+        *(.sbss .sbss.*)
         *(.init.kstack)
     }
     . = ALIGN(0x1000);
