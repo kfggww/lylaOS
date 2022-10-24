@@ -1,8 +1,9 @@
-_d := $(d)
+dstack += $(d)
 d := $(subdir)
 
 srcs_$(d) := $(wildcard $(d)/*.c)
-objs_$(d) := $(srcs_$(d):%.o=%.c)
+objs_$(d) := $(srcs_$(d):%.c=%.o)
 kobjs += $(objs_$(d))
 
-d := $(_d)
+d := $(lastword $(dstack))
+dstack := $(filter-out $(d), $(dstack))

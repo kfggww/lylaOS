@@ -1,3 +1,4 @@
+dstack += $(d)
 d := $(subdir)
 
 subdir := $(d)/arch/$(ARCH)
@@ -21,5 +22,9 @@ include $(subdir)/module.mk
 subdir := $(d)/mm
 include $(subdir)/module.mk
 
-$(kobjs): KBOJS_INC_COMMON := $(d)/include
-$(kobjs): CFLAGS += $(KBOJS_INC_COMMON)
+arch_inc := $(d)/arch/$(ARCH)/include
+lyla_inc := $(d)/include
+$(kobjs): CFLAGS += -I$(lyla_inc) -I$(arch_inc)
+
+d := $(lastword $(dstack))
+dstack := $(filter-out $(d), $(dstack))

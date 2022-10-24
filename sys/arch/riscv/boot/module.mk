@@ -1,10 +1,11 @@
-local_asm_srcs := entry.S \
-				kernelvec.S \
-				uservec.S
-local_asm_srcs := $(addprefix sys/arch/riscv/boot/, $(local_asm_srcs))
+dstack += $(d)
+d := $(subdir)
 
-local_srcs := trap.c
-local_srcs := $(addprefix sys/arch/riscv/boot/, $(local_srcs))
+srcs_$(d) := $(wildcard $(d)/*.c)
+asms_$(d) := $(wildcard $(d)/*.S)
 
-kernel_asm_srcs += $(local_asm_srcs)
-kernel_srcs += $(local_srcs)
+objs_$(d) := $(srcs_$(d):%.c=%.o) $(asms_$(d):%.S=%.o)
+kobjs += $(objs_$(d))
+
+d := $(lastword $(dstack))
+dstack := $(filter-out $(d), $(dstack))

@@ -1,5 +1,9 @@
-local_srcs := pm.c \
-			vm.c
-local_srcs := $(addprefix sys/mm/, $(local_srcs))
-local_objs := $(patsubst %.c, %.o, $(local_srcs))
-kernel_objs += $(local_objs)
+dstack += $(d)
+d := $(subdir)
+
+srcs_$(d) := $(wildcard $(d)/*.c)
+objs_$(d) := $(srcs_$(d):%.c=%.o)
+kobjs += $(objs_$(d))
+
+d := $(lastword $(dstack))
+dstack := $(filter-out $(d), $(dstack))
