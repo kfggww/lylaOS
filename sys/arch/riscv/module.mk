@@ -1,3 +1,7 @@
+d := $(subdir)
 
-include sys/arch/riscv/boot/module.mk
-include sys/arch/riscv/mm/module.mk
+subdir := $(d)/boot
+include $(subdir)/module.mk
+
+subdir := $(d)/mm
+include $(subdir)/module.mk

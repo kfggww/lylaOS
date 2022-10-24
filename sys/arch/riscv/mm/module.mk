@@ -1,5 +1,8 @@
-local_srcs := pm.c \
-	vm.c
-local_srcs := $(addprefix sys/arch/riscv/mm/, $(local_srcs))
-local_objs := $(patsubst %.c, %.o, $(local_srcs))
-kernel_objs += $(local_objs)
+_d := $(d)
+d := $(subdir)
+
+srcs_$(d) := $(wildcard $(d)/*.c)
+objs_$(d) := $(srcs_$(d):%.o=%.c)
+kobjs += $(objs_$(d))
+
+d := $(_d)

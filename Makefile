@@ -1,58 +1,41 @@
-CROSS_COMPILE ?= riscv64-unknown-elf-
-ARCH ?= riscv
+# The top level makefile of lylaOS
 
+# Tool chain settings
+ARCH := riscv
+CROSS_COMPILE ?= riscv64-unknown-elf-
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)ld
 OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 
+CFLAGS :=
 CFLAGS += -Wall -Werror -ffreestanding
-CFLAGS += -nostdlib -fno-common -g
+CFLAGS += -nostdlib -fno-common
 CFLAGS += -mcmodel=medany
-CFLAGS += -Isys/arch/$(ARCH)/include
-CFLAGS += -Isys/include
 
-kernel_asm_srcs :=
-kernel_srcs :=
-kernel_objs :=
-kernel_elf := sys/lylaOS
-linker_script := sys/arch/$(ARCH)/lylaOS.ld
+# Directories settings
+BUILD_TYPE := Debug
+BUILD_DIR := build
+source_dir := $(realpath .)
+build_dir := $(BUILD_DIR)
 
-QEMU := qemu-system-riscv64
-QEMU_OPTS := -machine virt -nographic -kernel $(kernel_elf)
+ifeq ($(BUILD_TYPE), Debug)
+	CFLAGS += -g
+endif
 
-all:
+# Build outputs
+kobjs :=
+uobjs :=
+dirs :=
 
-include sys/module.mk
-include usr/module.mk
+# Include subdirs
+subdir := $(source_dir)/sys
+include $(subdir)/module.mk
 
-kernel_objs += $(patsubst %.S, %.o, $(kernel_asm_srcs))
-kernel_objs += $(patsubst %.c, %.o, $(kernel_srcs))
+subdir := $(source_dir)/usr
+include $(subdir)/module.mk
 
-$(kernel_elf): $(kernel_objs)
-	$(LD) $(LDFLAGS) -T$(linker_script) $^ -o $@
+all: $(kobjs) $(uobjs)
+	@echo $(source_dir) $(build_dir)
 
-%.o: %.S
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-gen-compile-commands:
-	mkdir -p .vscode
-	$(MAKE) clean
-	bear $(MAKE) all && mv compile_commands.json .vscode
-
-gen-debug-config:
-	mkdir -p .vscode
-	cp script/vscode-launch.json .vscode/launch.json
-
-qemu-gdb: all
-	$(QEMU) $(QEMU_OPTS) -s -S
-
-clean:
-	$(RM) $(kernel_objs) $(kernel_elf)
-
-all: $(kernel_elf)
-
-.PHONY: all clean qemu-gdb gen-compile-commands gen-debug-config
+.PHONY: all

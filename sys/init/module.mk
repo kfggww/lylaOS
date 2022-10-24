@@ -1,4 +1,5 @@
-local_srcs := main.c
-local_srcs := $(addprefix sys/init/, $(local_srcs))
+d := $(subdir)
 
-kernel_srcs += $(local_srcs)
+srcs_$(d) := $(wildcard $(d)/*.c)
+objs_$(d) := $(srcs_$(d):%.o=%.c)
+kobjs += $(objs_$(d))
