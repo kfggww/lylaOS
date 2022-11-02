@@ -1,5 +1,5 @@
 
 .section .text
-.align 4
 .global kernelvec
+.align 4
 kernelvec:

@@ -1,6 +1,6 @@
 #ifndef _RISCV_H_
 #define _RISCV_H_
-#include <types.h>
+#include <asm/types.h>
 
 #define PTE_V (1 << 0)
 #define PTE_R (1 << 1)

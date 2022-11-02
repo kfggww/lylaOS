@@ -1,7 +1,7 @@
 #include <kernel.h>
 #include <list.h>
-#include <soc.h>
-#include <types.h>
+#include <riscv/soc.h>
+#include <asm/types.h>
 
 struct pgframe {
     struct list_head list;

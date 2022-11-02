@@ -1,6 +1,6 @@
 #ifndef _ARCH_GENERIC_H_
 #define _ARCH_GENERIC_H_
-#include <types.h>
+#include <asm/types.h>
 
 /*memory module of a specific architecture*/
 void arch_kpminit();

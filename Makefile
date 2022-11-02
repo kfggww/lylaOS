@@ -9,6 +9,7 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 QEMU := qemu-system-riscv64
 QEMU_OPTS = -machine virt -nographic -kernel $(kernel_img)
+Q := @
 
 CFLAGS :=
 CFLAGS += -Wall -Werror -ffreestanding
@@ -55,7 +56,7 @@ sys: $(kobjs)
 	$(LD) $(LDFLAGS) -T$(kernel_linker_script) -o $(kernel_img) $^
 
 usr: $(uobjs)
-	$(Q)echo Makefing target [$@]
+	$(Q)echo Making target [$@]
 
 qemu-gdb: all
 	$(QEMU) $(QEMU_OPTS) -s -S

@@ -1,7 +1,7 @@
 #include <arch-generic.h>
 #include <kernel.h>
-#include <riscv.h>
-#include <soc.h>
+#include <riscv/riscv.h>
+#include <riscv/soc.h>
 
 uint64 *walk_pgtbl(uint64 *pgtble, void *va, uint32 flags, int32 create);
 

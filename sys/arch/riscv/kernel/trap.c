@@ -1,5 +1,5 @@
-#include <riscv.h>
-#include <types.h>
+#include <riscv/riscv.h>
+#include <asm/types.h>
 
 void kernelvec();
 

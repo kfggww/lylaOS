@@ -1,6 +1,6 @@
 #ifndef _DEFS_H_
 #define _DEFS_H_
-#include <types.h>
+#include <asm/types.h>
 
 /*memory module interface*/
 void kpminit();

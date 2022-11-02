@@ -7,5 +7,8 @@ include $(subdir)/module.mk
 subdir := $(d)/mm
 include $(subdir)/module.mk
 
+subdir := $(d)/kernel
+include $(subdir)/module.mk
+
 d := $(lastword $(dstack))
 dstack := $(filter-out $(d), $(dstack))
